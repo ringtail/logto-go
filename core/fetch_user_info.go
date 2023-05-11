@@ -6,8 +6,9 @@ import (
 )
 
 func FetchUserInfo(client *http.Client, userInfoEndpoint, accessToken string) (UserInfoResponse, error) {
-	req, err := http.NewRequest("GET", userInfoEndpoint, nil)
+	client = &http.Client{}
 
+	req, err := http.NewRequest("GET", userInfoEndpoint, nil)
 	if err != nil {
 		return UserInfoResponse{}, err
 	}
