@@ -2,6 +2,7 @@ package core
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -12,7 +13,13 @@ type UserInfo struct {
 }
 
 func UpdateUserCustomData(userInfoEndpoint, accessToken string, customData interface{}) error {
-	client := &http.Client{}
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+
+	client := &http.Client{
+		Transport: tr,
+	}
 
 	customDataBytes, err := json.Marshal(UserInfo{
 		customData: customData,
